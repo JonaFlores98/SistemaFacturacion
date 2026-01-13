@@ -3,21 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="icon" href="{{ asset('favicons/favicon.ico') }}" type="image/x-icon">
+<script src="{{ mix('js/app.js') }}" defer></script>
+
 </head>
-<body class="font-sans antialiased bg-gray-100">
-    <div class="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
-        <div class="w-full max-w-md">
-            @yield('content')
-        </div>
+<body class="font-sans text-gray-900 antialiased">
+
+    <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        {{ $slot }}
     </div>
+
 </body>
 </html>
