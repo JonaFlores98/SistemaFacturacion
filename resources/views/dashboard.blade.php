@@ -36,17 +36,27 @@
                 </a>
             </div>
 
+            <!-- FACTURACIÓN -->
+            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                <a href="{{ url('/facturacion') }}" class="text-decoration-none">
+                    <div class="small-box bg-warning d-flex align-items-center px-4">
+                        <i class="fa fa-file-invoice-dollar fa-3x text-white mr-4"></i>
+                        <div>
+                            <h4 class="text-white mb-0">Facturación</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
             <!-- SALIR -->
             <div class="col-lg-3 col-6">
-    <button onclick="confirmarLogout()" class="small-box bg-danger w-100 border-0">
-    <div class="inner d-flex align-items-center">
-        <i class="fas fa-sign-out-alt fa-3x text-white mr-4"></i>
-        <h3 class="text-white mb-0">Salir</h3>
-    </div>
-</button>
-
-</div>
-
+                <button onclick="confirmarLogout()" class="small-box bg-danger w-100 border-0">
+                    <div class="inner d-flex align-items-center">
+                        <i class="fas fa-sign-out-alt fa-3x text-white mr-4"></i>
+                        <h3 class="text-white mb-0">Salir</h3>
+                    </div>
+                </button>
+            </div>
 
         </div>
     </div>

@@ -40,5 +40,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+use App\Http\Controllers\FacturacionController;
 
-	
+Route::middleware(['auth'])->group(function () {
+    Route::get('/facturacion', [FacturacionController::class, 'index'])
+        ->name('facturacion.index');
+});
+	Route::middleware(['auth'])->get('/facturacion/caja', function () {
+    return view('facturacion.caja');
+})->name('facturacion.caja');
