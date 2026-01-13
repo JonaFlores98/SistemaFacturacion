@@ -22,6 +22,11 @@ Route::get('/home', function () {
 Route::get('/descargarpdf', [App\Http\Controllers\PDFController::class], 'generatePDF')->name('generatePDF');
 Route::get('/getinventario', [App\Http\Controllers\PDFController::class], 'getInventario')->name('getinventario');
 
+Route::get('/facturacion', function () {
+    return view('facturacion.index');
+})->name('facturacion');
+
+
 Route::get('/salir', function () {
     return view('admin.salir');
 });
@@ -34,7 +39,7 @@ Route::middleware(['auth'])->get('/dashboard', function () {
 
 
 
- 
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -46,6 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/facturacion', [FacturacionController::class, 'index'])
         ->name('facturacion.index');
 });
-	Route::middleware(['auth'])->get('/facturacion/caja', function () {
+Route::middleware(['auth'])->get('/facturacion/caja', function () {
     return view('facturacion.caja');
 })->name('facturacion.caja');

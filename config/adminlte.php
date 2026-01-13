@@ -225,63 +225,76 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'Buscar',
-            'topnav_right' => true,
-        ],
-        [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
 
-        // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'Buscar',
-        ],
-        [
-            'text' => 'blog',
-            'url'  => '/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'Panel Principal',
-            'url'         => '/dashboard',
-            'icon'        => 'far fa fa-th',
-            'icon_color' => 'black',
-            'label_color' => 'success',
-        ],
-       
-        ['header' => 'SERVICIOS'],
-        [
-            'text' => 'Proveedores',
-            'url'  => '/proveedores',
-            'icon' => 'fas fa fa-user-circle',
-            'icon_color' => 'black',
-        ],
-        [
-            'text' => 'Inventario',
-            'url'  => '/inventario',
-            'icon' => 'fas fa fa-calendar',
-            'icon_color' => 'black',
-        ],
-       
-        [
-            'text' => 'Salir',
-            'url'  => '#',
-            'icon' => 'fas fa-sign-out-alt',
-            'icon_color' => 'red',
-            'attributes' => [
-                'onclick' => 'event.preventDefault(); confirmarLogout();'
-            ],
-        ],
-
-
-        [],
-
+    // Navbar items:
+    [
+        'type'         => 'navbar-search',
+        'text'         => 'Buscar',
+        'topnav_right' => true,
     ],
+    [
+        'type'         => 'fullscreen-widget',
+        'topnav_right' => true,
+    ],
+
+    // Sidebar items:
+    [
+        'type' => 'sidebar-menu-search',
+        'text' => 'Buscar',
+    ],
+
+    [
+        'text' => 'blog',
+        'url'  => '/blog',
+        'can'  => 'manage-blog',
+    ],
+
+    [
+        'text'         => 'Panel Principal',
+        'url'          => '/dashboard',
+        'icon'         => 'far fa-th',
+        'icon_color'   => 'black',
+        'label_color'  => 'success',
+    ],
+
+    // ===== HEADER SERVICIOS =====
+    ['header' => 'SERVICIOS'],
+
+    [
+        'text'        => 'Proveedores',
+        'url'         => '/proveedores',
+        'icon'        => 'fas fa-user-circle',
+        'icon_color'  => 'black',
+    ],
+
+    [
+        'text'        => 'Inventario',
+        'url'         => '/inventario',
+        'icon'        => 'fas fa-archive',
+        'icon_color'  => 'black',
+    ],
+
+    // ✅ NUEVO: FACTURACIÓN
+    [
+        'text'        => 'Facturación',
+        'url'         => '/facturacion',
+        'icon'        => 'fas fa-file-invoice-dollar',
+        'icon_color'  => 'black',
+    ],
+
+    // ===== SALIR =====
+    [
+        'text'        => 'Salir',
+        'url'         => '#',
+        'icon'        => 'fas fa-sign-out-alt',
+        'icon_color'  => 'red',
+        'attributes'  => [
+            'onclick' => 'event.preventDefault(); confirmarLogout();'
+        ],
+    ],
+
+],
+
 
     /*
     |--------------------------------------------------------------------------
