@@ -1,16 +1,11 @@
 <?php
 
-use App\Http\Controllers\PDFController;
-use App\Http\Livewire\Inventarios;
 use Illuminate\Support\Facades\Route;
-use Barryvdh\DomPDF\PDF;
+use App\Http\Controllers\PDFController;
+use App\Http\Controllers\FacturacionController;
+use App\Http\Controllers\FacturaController;
 
-
-
-Route::view('inventario', 'livewire.inventarios.index')->middleware('auth');
-Route::view('proveedores', 'livewire.proveedores.index')->middleware('auth');
-
-
+// Rutas públicas
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
@@ -19,38 +14,37 @@ Route::get('/home', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/descargarpdf', [App\Http\Controllers\PDFController::class], 'generatePDF')->name('generatePDF');
-Route::get('/getinventario', [App\Http\Controllers\PDFController::class], 'getInventario')->name('getinventario');
-
-Route::get('/facturacion', function () {
-    return view('facturacion.index');
-})->name('facturacion');
-
-
 Route::get('/salir', function () {
     return view('admin.salir');
 });
 
-Route::middleware(['auth'])->get('/dashboard', function () {
-    return view('dashboard-tailwind');
-})->name('dashboard');
+// Rutas de PDF
+Route::get('/descargarpdf', [PDFController::class, 'generatePDF'])->name('generatePDF');
+Route::get('/getinventario', [PDFController::class, 'getInventario'])->name('getinventario');
 
-
-
-
-
-
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-use App\Http\Controllers\FacturacionController;
-
+// Rutas con autenticación
 Route::middleware(['auth'])->group(function () {
-    Route::get('/facturacion', [FacturacionController::class, 'index'])
-        ->name('facturacion.index');
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard-tailwind');
+    })->name('dashboard');
+    
+    // Facturación
+    Route::get('/facturacion', [FacturacionController::class, 'index'])->name('facturacion.index');
+    Route::get('/facturacion/caja', function () {
+        return view('facturacion.caja');
+    })->name('facturacion.caja');
+    
+    // IMPORTANTE: Guardar factura - POST
+    Route::post('/facturacion/guardar', [FacturaController::class, 'store'])
+        ->name('facturacion.guardar');
+        
+    // Livewire
+    Route::view('inventario', 'livewire.inventarios.index');
+    Route::view('proveedores', 'livewire.proveedores.index');
 });
-Route::middleware(['auth'])->get('/facturacion/caja', function () {
-    return view('facturacion.caja');
-})->name('facturacion.caja');
+
+// Sanctum (si lo usas)
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard-sanctum', function () {
+    return view('dashboard');
+})->name('dashboard.sanctum');
