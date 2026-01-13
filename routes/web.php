@@ -22,29 +22,25 @@ Route::get('/salir', function () {
 Route::get('/descargarpdf', [PDFController::class, 'generatePDF'])->name('generatePDF');
 Route::get('/getinventario', [PDFController::class, 'getInventario'])->name('getinventario');
 
-// Rutas con autenticación
-Route::middleware(['auth'])->group(function () {
-    // Dashboard
+// Rutas con autenticación (JETSTREAM)
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    // Dashboard de Jetstream (DEJA ESTA SOLA)
     Route::get('/dashboard', function () {
-        return view('dashboard-tailwind');
+        return view('dashboard'); // Esto carga vendor/jetstream/dashboard.blade.php
     })->name('dashboard');
     
-    // Facturación
+    // Tus otras rutas
     Route::get('/facturacion', [FacturacionController::class, 'index'])->name('facturacion.index');
     Route::get('/facturacion/caja', function () {
         return view('facturacion.caja');
     })->name('facturacion.caja');
     
-    // IMPORTANTE: Guardar factura - POST
     Route::post('/facturacion/guardar', [FacturaController::class, 'store'])
         ->name('facturacion.guardar');
         
     // Livewire
-    Route::view('inventario', 'livewire.inventarios.index');
-    Route::view('proveedores', 'livewire.proveedores.index');
+    Route::view('inventario', 'livewire.inventarios.index')->name('inventario');
+    Route::view('proveedores', 'livewire.proveedores.index')->name('proveedores');
 });
 
-// Sanctum (si lo usas)
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard-sanctum', function () {
-    return view('dashboard');
-})->name('dashboard.sanctum');
+// Elimina la línea 48-50 (la otra ruta /dashboard-sanctum)
