@@ -4,20 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DetalleFactura extends Model
+class CompraDetalle extends Model
 {
-    protected $table = 'factura_detalles';
+    protected $table = 'compra_detalles';
 
     protected $fillable = [
-        'factura_id',
+        'compra_id',
         'producto_id',
         'cantidad',
         'precio'
     ];
 
-    public function factura()
+    public function compra()
     {
-        return $this->belongsTo(Factura::class, 'factura_id');
+        return $this->belongsTo(Compra::class, 'compra_id');
     }
 
     public function producto()

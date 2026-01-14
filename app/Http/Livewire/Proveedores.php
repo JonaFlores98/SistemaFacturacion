@@ -4,114 +4,142 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Proveedore;
+use App\Models\Proveedor;
 
 class Proveedores extends Component
 {
     use WithPagination;
 
-	protected $paginationTheme = 'bootstrap';
-    public $selected_id, $keyWord, $nombre_proveedor, $codigo_proveedor, $direccion_proveedor, $fecha_proveedor, $estado_proveedor;
+    protected $paginationTheme = 'bootstrap';
+
+    public $selected_id;
+    public $keyWord = '';
+
+    public $nombre;
+    public $nit;
+    public $nrc;
+    public $nombre_comercial;
+    public $telefono;
+    public $correo;
+    public $direccion;
+    public $tipo_proveedor;
+
     public $updateMode = false;
 
     public function render()
     {
-		$keyWord = '%'.$this->keyWord .'%';
+        $keyWord = '%' . $this->keyWord . '%';
+
         return view('livewire.proveedores.view', [
-            'proveedores' => Proveedore::latest()
-						->orWhere('nombre_proveedor', 'LIKE', $keyWord)
-						->orWhere('codigo_proveedor', 'LIKE', $keyWord)
-						->orWhere('direccion_proveedor', 'LIKE', $keyWord)
-						->orWhere('fecha_proveedor', 'LIKE', $keyWord)
-						->orWhere('estado_proveedor', 'LIKE', $keyWord)
-						->paginate(10),
+            'proveedores' => Proveedor::where(function ($query) use ($keyWord) {
+                    $query->where('nombre', 'LIKE', $keyWord)
+                          ->orWhere('nit', 'LIKE', $keyWord)
+                          ->orWhere('nrc', 'LIKE', $keyWord)
+                          ->orWhere('nombre_comercial', 'LIKE', $keyWord)
+                          ->orWhere('telefono', 'LIKE', $keyWord)
+                          ->orWhere('correo', 'LIKE', $keyWord)
+                          ->orWhere('direccion', 'LIKE', $keyWord)
+                          ->orWhere('tipo_proveedor', 'LIKE', $keyWord);
+                })
+                ->latest()
+                ->paginate(10),
         ]);
     }
-	
-    public function cancel()
-    {
-        $this->resetInput();
-        $this->updateMode = false;
-    }
-	
+
     private function resetInput()
-    {		
-		$this->nombre_proveedor = null;
-		$this->codigo_proveedor = null;
-		$this->direccion_proveedor = null;
-		$this->fecha_proveedor = null;
-		$this->estado_proveedor = null;
+    {
+        $this->nombre = null;
+        $this->nit = null;
+        $this->nrc = null;
+        $this->nombre_comercial = null;
+        $this->telefono = null;
+        $this->correo = null;
+        $this->direccion = null;
+        $this->tipo_proveedor = null;
+        $this->selected_id = null;
     }
 
     public function store()
     {
         $this->validate([
-		'nombre_proveedor' => 'required',
-		'codigo_proveedor' => 'required',
-		'direccion_proveedor' => 'required',
-		'fecha_proveedor' => 'required',
-		'estado_proveedor' => 'required',
+            'nombre' => 'required',
+            'nit' => 'required',
+            'nrc' => 'required',
+            'nombre_comercial' => 'required',
+            'telefono' => 'required',
+            'correo' => 'required|email',
+            'direccion' => 'required',
+            'tipo_proveedor' => 'required',
         ]);
 
-        Proveedore::create([ 
-			'nombre_proveedor' => $this-> nombre_proveedor,
-			'codigo_proveedor' => $this-> codigo_proveedor,
-			'direccion_proveedor' => $this-> direccion_proveedor,
-			'fecha_proveedor' => $this-> fecha_proveedor,
-			'estado_proveedor' => $this-> estado_proveedor
+        Proveedor::create([
+            'nombre' => $this->nombre,
+            'nit' => $this->nit,
+            'nrc' => $this->nrc,
+            'nombre_comercial' => $this->nombre_comercial,
+            'telefono' => $this->telefono,
+            'correo' => $this->correo,
+            'direccion' => $this->direccion,
+            'tipo_proveedor' => $this->tipo_proveedor,
         ]);
-        
+
         $this->resetInput();
-		$this->emit('closeModal');
-		session()->flash('message', 'Proveedor Agregado Exitosamente.');
+        session()->flash('message', 'Proveedor agregado correctamente.');
     }
 
     public function edit($id)
     {
-        $record = Proveedore::findOrFail($id);
+        $proveedor = Proveedor::findOrFail($id);
 
-        $this->selected_id = $id; 
-		$this->nombre_proveedor = $record-> nombre_proveedor;
-		$this->codigo_proveedor = $record-> codigo_proveedor;
-		$this->direccion_proveedor = $record-> direccion_proveedor;
-		$this->fecha_proveedor = $record-> fecha_proveedor;
-		$this->estado_proveedor = $record-> estado_proveedor;
-		
+        $this->selected_id = $proveedor->proveedor_id;
+        $this->nombre = $proveedor->nombre;
+        $this->nit = $proveedor->nit;
+        $this->nrc = $proveedor->nrc;
+        $this->nombre_comercial = $proveedor->nombre_comercial;
+        $this->telefono = $proveedor->telefono;
+        $this->correo = $proveedor->correo;
+        $this->direccion = $proveedor->direccion;
+        $this->tipo_proveedor = $proveedor->tipo_proveedor;
+
         $this->updateMode = true;
     }
 
     public function update()
     {
         $this->validate([
-		'nombre_proveedor' => 'required',
-		'codigo_proveedor' => 'required',
-		'direccion_proveedor' => 'required',
-		'fecha_proveedor' => 'required',
-		'estado_proveedor' => 'required',
+            'nombre' => 'required',
+            'nit' => 'required',
+            'nrc' => 'required',
+            'nombre_comercial' => 'required',
+            'telefono' => 'required',
+            'correo' => 'required|email',
+            'direccion' => 'required',
+            'tipo_proveedor' => 'required',
         ]);
 
         if ($this->selected_id) {
-			$record = Proveedore::find($this->selected_id);
-            $record->update([ 
-			'nombre_proveedor' => $this-> nombre_proveedor,
-			'codigo_proveedor' => $this-> codigo_proveedor,
-			'direccion_proveedor' => $this-> direccion_proveedor,
-			'fecha_proveedor' => $this-> fecha_proveedor,
-			'estado_proveedor' => $this-> estado_proveedor
+            $proveedor = Proveedor::find($this->selected_id);
+
+            $proveedor->update([
+                'nombre' => $this->nombre,
+                'nit' => $this->nit,
+                'nrc' => $this->nrc,
+                'nombre_comercial' => $this->nombre_comercial,
+                'telefono' => $this->telefono,
+                'correo' => $this->correo,
+                'direccion' => $this->direccion,
+                'tipo_proveedor' => $this->tipo_proveedor,
             ]);
 
             $this->resetInput();
             $this->updateMode = false;
-			session()->flash('message', 'Proveedor Actualizado !');
+            session()->flash('message', 'Proveedor actualizado correctamente.');
         }
     }
 
     public function destroy($id)
     {
-        if ($id) {
-            $record = Proveedore::where('id', $id);
-            $record->delete();
-        }
-        session()->flash('message', 'Proveedor Eliminado !');
+        Proveedor::find($id)->delete();
+        session()->flash('message', 'Proveedor eliminado correctamente.');
     }
 }

@@ -14,18 +14,20 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
+            <!-- USUARIO -->
             <div class="mb-4">
-                <x-jet-label for="email" value="Correo electrónico" />
+                <x-jet-label for="usuario_login" value="Usuario" />
                 <x-jet-input
-                    id="email"
+                    id="usuario_login"
                     class="block mt-1 w-full"
-                    type="email"
-                    name="email"
+                    type="text"
+                    name="usuario_login"
                     required
                     autofocus
                 />
             </div>
 
+            <!-- CONTRASEÑA -->
             <div class="mb-6">
                 <x-jet-label for="password" value="Contraseña" />
                 <x-jet-input
