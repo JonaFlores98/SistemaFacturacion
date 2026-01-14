@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class CompraDetalle extends Model
 {
     protected $table = 'compra_detalles';
+    protected $primaryKey = 'compra_detalle_id';
 
     protected $fillable = [
         'compra_id',
         'producto_id',
         'cantidad',
-        'precio'
+        'costo_unitario',
+        'subtotal'
     ];
 
     public function compra()
